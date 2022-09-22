@@ -42,17 +42,14 @@ class EcoFarmController extends Controller
      */
     public function store(Request $request)
     {
-        Tree::create(["name" => $request->name, "description" => $request->description, "date" => $request->date]);
+        Tree::create($request->all());
     }
 
     public function generate($id)
     {
         $tree = Tree::findOrFail($id);
-        $qrcode = QrCode::size(400)->generate($tree->name . $tree->id);
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML('<img src="' . $qrcode . '" alt="qrcode">');
-        return $pdf->stream();
-        // return view('qrcode', compact('qrcode'));
+        $qrcode = QrCode::size(400)->generate(route("tree.show", ["tree" => $id]));
+        return view('qrcode', compact('qrcode'));
     }
 
     /**
@@ -63,7 +60,8 @@ class EcoFarmController extends Controller
      */
     public function show($id)
     {
-        //
+        $tree = Tree::findOrFail($id);
+        return view('detail', compact('qrcode'));
     }
 
     /**
@@ -88,7 +86,7 @@ class EcoFarmController extends Controller
     {
         $tree = Tree::findOrFail($id);
         $tree->update(
-            ["name" => $request->name, "description" => $request->description, "date" => $request->date],
+            ["name" => $request->name, "description" => $request->description, "age" => $request->age],
         );
 
         return redirect()->route("tree.index");

@@ -47,7 +47,7 @@
                     @foreach ($trees as $tree)
                         <tr>
                             <td>{{ $tree->name }}</td>
-                            <td>{{ $tree->date }}</td>
+                            <td>{{ $tree->date->diffForHumans() }}</td>
                             <td>{{ $tree->description }}</td>
                             <td>
                                 <a href="{{ route('generate', $tree->id) }}" class="btn btn-primary">Générer</a>
