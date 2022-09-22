@@ -61,7 +61,7 @@ class EcoFarmController extends Controller
     public function show($id)
     {
         $tree = Tree::findOrFail($id);
-        return view('detail', compact('qrcode'));
+        return view('detail', compact('tree'));
     }
 
     /**
