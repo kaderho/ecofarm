@@ -20,7 +20,7 @@
     <body>
         <div class="container">
             <div class="row mt-5 text-center">
-                <table class="table">
+                <table class="table table-bordered">
                 <tbody>
                     <tr>
                         <th scope="col">Nom</th>
@@ -28,7 +28,7 @@
                     </tr>
                      <tr>
                         <th scope="col">Date</th>
-                        <td>{{ $tree->date->dffForHumans() }}</td>
+                        <td>{{ $tree->date->diffForHumans() }}</td>
                     </tr>
                      <tr>
                         <th scope="col">Description</th>

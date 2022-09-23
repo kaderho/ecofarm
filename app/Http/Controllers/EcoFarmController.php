@@ -48,19 +48,19 @@ class EcoFarmController extends Controller
     public function generate($id)
     {
         $tree = Tree::findOrFail($id);
-        $qrcode = QrCode::size(400)->generate(route("tree.show", ["tree" => $id]));
+        $qrcode = QrCode::size(300)->generate(route("tree.show", ["tree" => $id]));
         return view('qrcode', compact('qrcode'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Tree $tree
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Tree $tree)
     {
-        $tree = Tree::findOrFail($id);
+        // $tree = Tree::findOrFail($id);
         return view('detail', compact('tree'));
     }
 
@@ -79,12 +79,14 @@ class EcoFarmController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Tree $tree
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Tree $tree)
     {
-        $tree = Tree::findOrFail($id);
+        // $tree = Tree::findOrFail($id);
+
+
         $tree->update(
             ["name" => $request->name, "description" => $request->description, "age" => $request->age],
         );
