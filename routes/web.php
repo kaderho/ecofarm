@@ -20,4 +20,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource("tree", EcoFarmController::class);
 
+Route::get("/tree/generate/all", "App\Http\Controllers\EcoFarmController@generateAll")->name( "generates");
 Route::get("/tree/generate/{id}", "App\Http\Controllers\EcoFarmController@generate")->name("generate");

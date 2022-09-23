@@ -10,11 +10,6 @@
     <!-- Styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <style>
-        body {
-            font-family: 'Nunito';
-        }
-    </style>
 </head>
 
 <body>
@@ -56,6 +51,8 @@
                     @endforeach
                 </tbody>
             </table>
+            <a href="{{ route('generates') }}" class="btn btn-primary ml-1 mb-2">Générer tous les QRcodes</a>
+
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

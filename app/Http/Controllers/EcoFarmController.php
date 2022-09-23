@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use App\Models\Tree;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Storage;
 
 class EcoFarmController extends Controller
 {
@@ -47,9 +49,16 @@ class EcoFarmController extends Controller
 
     public function generate($id)
     {
-        $tree = Tree::findOrFail($id);
-        $qrcode = QrCode::size(300)->generate(route("tree.show", ["tree" => $id]));
-        return view('qrcode', compact('qrcode'));
+        dd("dddd");
+        $pdf = Pdf::loadView('qrcode', ["id" => $id])->setOption(['defaultFont' => 'sans-serif']);
+        return $pdf->download('qrcode.pdf');
+    }
+
+    public function generateAll(Request $request)
+    {
+        $trees = Tree::all();
+        $pdf = Pdf::loadView('allqrcode', ["trees" => $trees])->setOption(['defaultFont' => 'sans-serif']);
+        return $pdf->download('qrcode.pdf');
     }
 
     /**
