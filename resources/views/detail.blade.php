@@ -8,7 +8,7 @@
     <body>
         <div class="container">
             <div class="row mt-5 text-center">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-striped">
                 <tbody>
                     <tr>
                         <th scope="col">Nom</th>

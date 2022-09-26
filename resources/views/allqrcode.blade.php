@@ -12,16 +12,17 @@
 </head>
 
 <body>
-<div class="container">
-      <div class="row">
-          @foreach ($trees as $tree)
-            <div class="col-md-6">
-                <img src="data:image/png;base64, {!! base64_encode(
-                    QrCode::format('png')->size(200)->generate(route('tree.show', ['tree' => $tree->id])),
-                ) !!} ">
-            </div>
+    <div>
+        {{-- <table class="table table-bordered">
+            <tbody> --}}
+        @foreach ($trees as $tree)
+            <img class="mt-5" src="data:image/png;base64, {!! base64_encode(
+                QrCode::format('png')->size(200)->generate(route('tree.show', ['tree' => $tree->id])),
+            ) !!} ">
+            <span style="text-align: start !important;"">{{ $tree->name . ' ' . $tree->id }}</span>
         @endforeach
-      </div>
+        {{-- </tbody>
+        </table> --}}
     </div>
 </body>
 
