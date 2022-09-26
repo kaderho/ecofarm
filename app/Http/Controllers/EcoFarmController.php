@@ -49,7 +49,6 @@ class EcoFarmController extends Controller
 
     public function generate($id)
     {
-        dd("dddd");
         $pdf = Pdf::loadView('qrcode', ["id" => $id])->setOption(['defaultFont' => 'sans-serif']);
         return $pdf->download('qrcode.pdf');
     }
