@@ -82,12 +82,26 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # install application dependencies
 WORKDIR /var/www/app
 
+# Copy import file project
 COPY . .
+
+# Install dependencies
 RUN composer install --no-scripts --no-autoloader --ansi --no-interaction
 
-RUN php artisan migrate:fresh
+# Generate token for safety
+RUN php artisan key:generate
+
+# Migrate database
+RUN php artisan migrate
+
+# Clear cache
 RUN php artisan cache:clear
+
+# Add route in cache
 RUN php artisan route:cache
+
+# Import environment variables dev to prod
+COPY ./docker/env/.env.dev .env
 
 # add custom php-fpm pool settings, these get written at entrypoint startup
 ENV FPM_PM_MAX_CHILDREN=20 \
@@ -100,20 +114,13 @@ ENV APP_NAME="Eco Farm" \
     APP_ENV=production \
     APP_DEBUG=false
 
-# copy entrypoint files
-# COPY ./docker/docker-php-entrypoint /usr/local/bin/
-# RUN dos2unix /usr/local/bin/docker-php-entrypoint
-# RUN dos2unix /usr/local/bin/docker-php-entrypoint-dev
-
 # copy nginx configuration
 COPY ./docker/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
-# COPY ./docker/default.conf /etc/nginx/sites-available/default.conf
 
 # RUN service restart nginx
 
 # # copy application code
-# WORKDIR /var/www/app
 # COPY . .
 RUN composer dump-autoload -o \
     && chown -R :www-data /var/www/app \

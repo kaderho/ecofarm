@@ -1,34 +1,45 @@
-## Pour le déploiement il faut
+## Pour le déploiement il faut sans docker
 
 - Installer PHP (la dernière version)
 - Installer Composer [lien](https://getcomposer.org/download/)
 
-Après l'installation de composer il faut executer à la racine du projet
+Après l'installation de Composer et PHP il faut se deplacer à la racine du projet et executer les commande suivantes:7
+
+Les dépendances pour le bon fonctionnement de [Laravel](https://laravel.com/docs/8.x)
 ```
 $ composer install
-$ cp .env.exemple .env
+```
+
+Copier les variables d'environnement
+```
+$ cp docker/env/.env.prod .env
+```
+
+Générer le Token pour la protection des requêtes
+```
 $ php artisan key:generate
 ```
-### Aller dans le fichier .env et remplacer ce qui suit
 
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=ecofarm
-DB_USERNAME=root
-DB_PASSWORD=
-
-### Par 
-DB_CONNECTION=sqlite
-DB_DATABASE=(chemin absolu)/ecofarm/database/database.sqlite
-DB_FOREIGN_KEYS=true
-
-si la BD est bien configurer la commande suivante devrait passer sans problème
-```
-$ php artisan migrate
-```
-Après tout ça il faut dit au serveur nginx ou appache de pointer sur le fichier
+Après tout ça il faut configurer au serveur web en mettant le root dir à :
 
 (chemin absolu)/ecofarm/public/
 
 l'index.php n'est pas nécessaire car le fichier (index.php) sera lu automatiquement
+
+## Pour le déploiement il faut avec docker
+
+Il faut executer la commande suivante pour builder l'image docker
+```
+$ docker build -t ecofarm:[version]
+```
+
+Pour deployer il faut executer la commande suivante:
+
+Avec cette commande vous verez les logs dans votre console.
+```
+$ docker run -p 8000:80 ecofarm:[version]
+```
+Avec cette commande vous ne verez pas de logs dans votre console.
+```
+$ docker run -d -p 8000:80 ecofarm:[version]
+```

@@ -14,11 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect('/tree');
-});
+
+Route::get("/", "App\Http\Controllers\EcoFarmController@welcome");
 
 Route::resource("tree", EcoFarmController::class);
 
 Route::get("/tree/generates/all", "App\Http\Controllers\EcoFarmController@generateAll")->name( "generates");
 Route::get("/tree/generate/{id}", "App\Http\Controllers\EcoFarmController@generate")->name("generate");
+
+Route::get("/tree/export/all", "App\Http\Controllers\EcoFarmController@export")->name("export");
+Route::post("/tree/import/all", "App\Http\Controllers\EcoFarmController@import")->name("import");

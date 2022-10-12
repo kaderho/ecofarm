@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
+    <title>EcoFarm</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <!-- Styles -->
@@ -17,6 +17,7 @@
 
 <body>
     <div class="container" style="padding: 30px;">
+        <h2 class="text-center">Bienvenu sur la plateforme de gestion des arbres de ECOFARM</h2>
         <form id="form" action="{{ route('tree.store') }}" method="POST">
             @csrf
             <div id="csrf"></div>
@@ -74,12 +75,17 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-10">
                 {!! $trees->links() !!}
             </div>
-            <div class="col-md-3 d-flex justify-content-end">
-                <a href="{{ route('generates') }}" class="btn btn-primary btn-sm">Tous <i
-                        class="fas fa-qrcode"></i></a>
+            <div class="col-md-2 d-flex justify-content-between">
+                <a href="{{ route('generates') }}" class="btn btn-primary btn-sm">
+                    Tous <i class="fas fa-qrcode"></i>
+                </a>
+                <a href="{{ route('export') }}" class="btn btn-warning  btn-sm">
+                    Export
+                    <i class="fas fa-upload"></i>
+                </a>
             </div>
         </div>
         <!-- Modal -->
