@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TreesExport;
+use App\Imports\TreesImport;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use App\Models\Tree;
@@ -9,9 +11,14 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EcoFarmController extends Controller
 {
+    public function welcome(){
+        return redirect()->route('tree.index');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +26,7 @@ class EcoFarmController extends Controller
      */
     public function index()
     {
-        $trees = Tree::all();
+        $trees = Tree::paginate(10);
 
         return view('tree')->with([
             "trees" => $trees
@@ -45,6 +52,7 @@ class EcoFarmController extends Controller
     public function store(Request $request)
     {
         Tree::create($request->all());
+        return redirect()->route('tree.index');
     }
 
     public function generate($id)
@@ -58,6 +66,17 @@ class EcoFarmController extends Controller
         $trees = Tree::all();
         $pdf = Pdf::loadView('allqrcode', ["trees" => $trees])->setOption(['defaultFont' => 'sans-serif']);
         return $pdf->download('qrcode.pdf');
+    }
+
+    public function export()
+    {
+        return Excel::download(new TreesExport, 'trees.xlsx');
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new TreesImport, $request->file);
+        return redirect()->route('tree.index');
     }
 
     /**
@@ -92,11 +111,12 @@ class EcoFarmController extends Controller
      */
     public function update(Request $request, Tree $tree)
     {
-        // $tree = Tree::findOrFail($id);
-
-
         $tree->update(
-            ["name" => $request->name, "description" => $request->description, "age" => $request->age],
+            [
+                "name" => $request->name,
+                "description" => $request->description,
+                "date" => $request->date
+            ],
         );
 
         return redirect()->route("tree.index");
@@ -105,11 +125,12 @@ class EcoFarmController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Tree $tree
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tree $tree)
     {
-        //
+        $tree->delete();
+        return redirect()->route("tree.index");
     }
 }
