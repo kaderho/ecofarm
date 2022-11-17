@@ -26,7 +26,7 @@ Après tout ça il faut configurer au serveur web en mettant le root dir à :
 
 l'index.php n'est pas nécessaire car le fichier (index.php) sera lu automatiquement
 
-## Pour le déploiement il faut avec docker
+## Pour le déploiement avec docker
 
 Il faut executer la commande suivante pour builder l'image docker
 ```
